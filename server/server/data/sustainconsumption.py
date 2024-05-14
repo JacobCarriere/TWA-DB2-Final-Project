@@ -31,8 +31,7 @@ def plot_sustainable_energy_consumption(year, country_names):
     axs[-1,-1].axis('off')
     
     for i, (country_name, consumptions) in enumerate(countries_with_data):
-               explode = (0.05, 0.05, 0.05, 0.05)
-
+        explode = (0.05, 0.05, 0.05, 0.05)
         ax = axs[i//2, i%2]
         ax.pie(consumptions, autopct='%1.1f%%', explode=explode)
         ax.set_title(f'{country_name}')

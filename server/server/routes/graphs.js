@@ -9,16 +9,17 @@ const jwt = require('jsonwebtoken');
 
 
 router.get('/python/:param1', async (req, res) => {
-    // Call the Python file
+    // run the Python file
     const python = spawn('python', ['fossilconsumption.py', req.params.param1]);
     console.log('req.params.param1: ', req.params.param1);
 
-    // Handle Python script execution completion
+    // listen to Python script, await the result.
     python.on('close', (code) => {
         console.log('code: ', code);
         if (code === 2) {
             // Read the generated image file
-            const imagePath = path.join(__dirname, `${req.params.param1}_sustain_consumption.png`);
+            const imagePath = path.join(__dirname,`../data/sustainconsumption.png`);
+            console.log('__dirname: ', __dirname);
                 // Read the image
                 const imageBuffer = fs.readFileSync(imagePath);
                 console.log('imagePath: ', imagePath);
