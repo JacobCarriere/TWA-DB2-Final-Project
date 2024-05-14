@@ -36,7 +36,6 @@ def plot_fossil_energy_consumption(country_name):
     save_directory = './image'
     file_name = 'fossilconsumption.png'
     save_path = os.path.join(save_directory, file_name)
-    print(save_path)
     plt.savefig(save_path)
     
     # plt.show()

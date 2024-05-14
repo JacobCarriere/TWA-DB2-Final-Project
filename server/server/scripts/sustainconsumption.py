@@ -40,10 +40,9 @@ def plot_sustainable_energy_consumption(year, country_names):
     fig.legend(energies, loc='upper right')
     plt.tight_layout()
     
-    save_directory = '..\image'
+    save_directory = '.\image'
     file_name = 'sustainconsumption.png'
     save_path = os.path.join(save_directory, file_name)
-    print(save_path)
     plt.savefig(save_path)
 
 
