@@ -34,6 +34,13 @@ ax.set_xlabel('Year')
 ax.set_ylabel(stat)
 ax.set_title(f'{stat} Over Last 10 Years (Top 5 Countries in {yr} + Canada)')
 ax.legend(loc='upper left')
+<<<<<<< HEAD
+
+plt.savefig(f'top_emissions_per_countries.png')
+
+plt.show()
+=======
 plt.savefig('emissionperiod.png')
 plt.show()
 # python emissionperiod.py 'greenhouse_gas_emission/population/gdp' 'year'
+>>>>>>> 0a21da59666a2a52f67597ace2bb8cc698de0d97
