@@ -2,8 +2,6 @@ import matplotlib.pyplot as plt
 import pymongo
 import sys
 
-arguments = sys.argv
-
 def plot_fossil_energy_consumption(country_name):
     client = pymongo.MongoClient('mongodb+srv://joshlacroix:NByewvwMRgR8hM0C@movieappdata.dhsk4vr.mongodb.net/')
     db = client['energy_consumption']
@@ -31,6 +29,13 @@ def plot_fossil_energy_consumption(country_name):
     plt.ylabel('Fossil Energy Consumption (terawatt-hours)')
     plt.title(f'Fossil Energy Consumption in {country_name}')
     plt.legend()
+
+    # Save the plot before displaying it
+    plt.savefig(f'{country_name}_fossil_energy_consumption.png')
+
+    # Show the plot
     plt.show()
+
+arguments = sys.argv
 
 plot_fossil_energy_consumption(arguments[1])

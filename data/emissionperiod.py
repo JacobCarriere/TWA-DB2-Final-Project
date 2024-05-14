@@ -33,4 +33,6 @@ ax.set_ylabel(stat)
 ax.set_title(f'{stat} Over Last 10 Years (Top 5 Countries in 2020 + Canada)')
 ax.legend(loc='upper left')
 
+plt.savefig(f'top_emissions_per_countries.png')
+
 plt.show()

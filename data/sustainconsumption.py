@@ -38,6 +38,8 @@ def plot_sustainable_energy_consumption(year, country_names):
 
     fig.legend(energies, loc='upper right')
     plt.tight_layout()
+    # Save the plot before displaying it
+    plt.savefig(f'{country_name}_sustain_consumption.png')
     plt.show()
 
 if __name__ == '__main__':

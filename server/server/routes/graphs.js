@@ -1,46 +1,43 @@
 const router = require('express').Router();
-
-// import the library to call a python script
-const spawner = require('child_process').spawn
-
-
+const path = require('path');
+const { spawn } = require('child_process');
+const fs = require('fs');
 // Import schemas below
-
 
 // ijmporting the jwt token
 const jwt = require('jsonwebtoken');
 
 
+router.get('/python/:param1', async (req, res) => {
+    // Call the Python file
+    const python = spawn('python', ['fossilconsumption.py', req.params.param1]);
+    console.log('req.params.param1: ', req.params.param1);
 
+    // Handle Python script execution completion
+    python.on('close', (code) => {
+        console.log('code: ', code);
+        if (code === 2) {
+            // Read the generated image file
+            const imagePath = path.join(__dirname, `${req.params.param1}_sustain_consumption.png`);
+                // Read the image
+                const imageBuffer = fs.readFileSync(imagePath);
+                console.log('imagePath: ', imagePath);
 
+                // Set response headers
+                res.set({
+                    'Content-Type': 'image/png',
+                    'Content-Length': imageBuffer.length
+                });
 
-/**  a get path for the welcoming page that simply has a button
-This is a get method that has no need for format and parameters since it has nothing but a button.
-The button will be coded in the client side to navigate to the following page.
-*/
-router.get('/python/:param1', async (req, res)=> {
-    // call the python script
-    const python = spawner('python', ['python.py', req.params.param1]);
-    // have chest ready to get python data
-    let dataChest = '';
-    // get the python data
-    python.stdout.on('data', function (data) {
-        dataChest += data.toString();
+                // Send the image to response body
+                res.end(imageBuffer);
+        } else {
+            // if there's problem with generating image
+            res.status(500).send('Error: Failed to show the image');
+        }
     });
-    // run the python script
-    python.stderr.on('close', function () {
-        const img = Buffer.from(dataChest, 'base64');
-        
-        // Set response headers using res.set()
-        res.set({
-            'Content-Type': 'image/png',
-            'Content-Length': img.length
-        });
-        
-        // Send the image data in the response
-        res.end(img);
-    });
-})
+});
+
 
 /**  a get path for the welcoming page that simply has a button
 This is a get method that has no need for format and parameters since it has nothing but a button.
