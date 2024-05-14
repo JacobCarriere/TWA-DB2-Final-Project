@@ -10,15 +10,15 @@ const jwt = require('jsonwebtoken');
 
 router.get('/python/:param1', async (req, res) => {
     // run the Python file
-    const python = spawn('python', ['fossilconsumption.py', req.params.param1]);
+    const python = spawn('python', ['scripts/fossilconsumption.py', req.params.param1]);
     console.log('req.params.param1: ', req.params.param1);
 
     // listen to Python script, await the result.
     python.on('close', (code) => {
         console.log('code: ', code);
-        if (code === 2) {
+        if (code === 0) {
             // Read the generated image file
-            const imagePath = path.join(__dirname,`../data/sustainconsumption.png`);
+            const imagePath = path.join(__dirname,`../image/fossilconsumption.png`);
             console.log('__dirname: ', __dirname);
                 // Read the image
                 const imageBuffer = fs.readFileSync(imagePath);
@@ -39,36 +39,11 @@ router.get('/python/:param1', async (req, res) => {
     });
 });
 
-
-/**  a get path for the welcoming page that simply has a button
-This is a get method that has no need for format and parameters since it has nothing but a button.
-The button will be coded in the client side to navigate to the following page.
-*/
-router.get('/welcome', async (req, res)=>  {
-    try {
-        // Send a welcome message as the response
-        res.status(200).send('Welcome, user!');
-    } catch (error) {
-        // Handle errors
-        res.status(400).send('The server cannot or will not process the request due to an apparent client error.');
-    }
+// this router will be using json body.
+router.get('firstGraph', async (req, res) => {
+    // get the queries from the json body
+    const queries { country, graphType } = req.body;
 })
-
-/**  This route works on the second page of the website. 
- * The page has multiple different graph examples with a button underneath them. 
- * The user can choose one of the graphs by clicking the button underneath that graph, 
- * where they will be navigated to another page. 
- * A page they can fill the queries and get all the data in their selected graph.
-*/
-router.get('/selectGraph', async (req, res) => {
-    try {
-        // Send a success message as the response
-        res.status(200).send('Successful navigation.');
-    } catch (error) {
-        // Handle errors
-        res.status(400).send('The server cannot or will not process the request due to an apparent client error.');
-    }
-});
 
 
 //take the queries user put.

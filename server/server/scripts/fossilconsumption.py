@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import pymongo
 import sys
+import os
 
 arguments = sys.argv
 
@@ -31,8 +32,14 @@ def plot_fossil_energy_consumption(country_name):
     plt.ylabel('Fossil Energy Consumption (terawatt-hours)')
     plt.title(f'Fossil Energy Consumption in {country_name}')
     plt.legend()
-    plt.savefig('fossilconsumption.png')
-    plt.show()
+ 
+    save_directory = './image'
+    file_name = 'fossilconsumption.png'
+    save_path = os.path.join(save_directory, file_name)
+    print(save_path)
+    plt.savefig(save_path)
+    
+    # plt.show()
 
 plot_fossil_energy_consumption(arguments[1])
 # python fossilconsumption.py 'country_name'
