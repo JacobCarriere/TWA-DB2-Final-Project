@@ -8,10 +8,12 @@ db = client['energy_consumption']
 collection = db['country_energy']
 
 stat = sys.argv[1]
+yr = sys.argv[2]
+yr_min = int(yr) - 10
 
-top_countries = list(collection.find({"year": 2020}, {"country": 1, stat: 1}).sort(stat, -1).limit(5))
+top_countries = list(collection.find({"year": int(yr)}, {"country": 1, stat: 1}).sort(stat, -1).limit(5))
 
-year_range = range(2011, 2021)
+year_range = range(yr_min, int(yr))
 data = []
 for year in year_range:
     temp_data = []
@@ -30,7 +32,8 @@ df = pd.DataFrame(data, index=year_range, columns=[country["country"] for countr
 ax = df.plot(kind='bar', figsize=(12, 6))
 ax.set_xlabel('Year')
 ax.set_ylabel(stat)
-ax.set_title(f'{stat} Over Last 10 Years (Top 5 Countries in 2020 + Canada)')
+ax.set_title(f'{stat} Over Last 10 Years (Top 5 Countries in {yr} + Canada)')
 ax.legend(loc='upper left')
-
+plt.savefig('emissionperiod.png')
 plt.show()
+# python emissionperiod.py 'greenhouse_gas_emission/population/gdp' 'year'

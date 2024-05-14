@@ -31,22 +31,20 @@ def plot_sustainable_energy_consumption(year, country_names):
     axs[-1,-1].axis('off')
     
     for i, (country_name, consumptions) in enumerate(countries_with_data):
-       
+        explode = (0.05, 0.05, 0.05, 0.05)
         ax = axs[i//2, i%2]
-        ax.pie(consumptions, autopct='%1.1f%%')
+        ax.pie(consumptions, autopct='%1.1f%%', explode=explode)
         ax.set_title(f'{country_name}')
 
     fig.legend(energies, loc='upper right')
     plt.tight_layout()
+    plt.savefig('sustainconsumption.png')
     plt.show()
 
 if __name__ == '__main__':
-    if len(sys.argv) < 3:
-        print('Usage: python sustainconsumption.py [year] [country1] [country2]...')
-        sys.exit(1)
-
     year = sys.argv[1]
     country_names = sys.argv[2:]
     country_names = country_names[:4]
 
     plot_sustainable_energy_consumption(year, country_names)
+    # python sustainconsumption.py 'year' 'country_1 country_2 country_3 country_4'

@@ -31,6 +31,8 @@ def plot_fossil_energy_consumption(country_name):
     plt.ylabel('Fossil Energy Consumption (terawatt-hours)')
     plt.title(f'Fossil Energy Consumption in {country_name}')
     plt.legend()
+    plt.savefig('fossilconsumption.png')
     plt.show()
 
 plot_fossil_energy_consumption(arguments[1])
+# python fossilconsumption.py 'country_name'
