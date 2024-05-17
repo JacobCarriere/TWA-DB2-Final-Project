@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 // Connection URL
-const databaseName = 'testImage' // change the database name. Ask Joshua
+const databaseName = 'energy_consumption' // change the database name. Ask Joshua
 const url = `${process.env.DB_HOST}/${databaseName}`; // edit this into this later: `${process.env.DB_HOST}/${databaseName}`;
 
 async function connect() {
