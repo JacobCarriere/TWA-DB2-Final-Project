@@ -34,11 +34,16 @@ const countries = [
 
 interface CountryDropdownProps {
     id: string;
+    onSelectCountry: (country: string) => void;
 }
 
-const CountryDropdown: React.FC<CountryDropdownProps> = ({ id }) => {
+const CountryDropdown: React.FC<CountryDropdownProps> = ({ id, onSelectCountry  }) => {
+    const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        onSelectCountry(event.target.value);
+    };
+
     return (
-        <select id={id}>
+        <select id={id} onChange={handleChange}>
             {countries.map((country, index) => (
                 <option key={index} value={country}>
                     {country}
