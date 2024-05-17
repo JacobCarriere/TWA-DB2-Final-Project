@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import pymongo
 import sys
+import os
 
 def plot_sustainable_energy_consumption(year, country_names):
     client = pymongo.MongoClient('mongodb+srv://joshlacroix:NByewvwMRgR8hM0C@movieappdata.dhsk4vr.mongodb.net/')
@@ -31,15 +32,20 @@ def plot_sustainable_energy_consumption(year, country_names):
     axs[-1,-1].axis('off')
     
     for i, (country_name, consumptions) in enumerate(countries_with_data):
-               explode = (0.05, 0.05, 0.05, 0.05)
-
+        explode = (0.05, 0.05, 0.05, 0.05)
         ax = axs[i//2, i%2]
         ax.pie(consumptions, autopct='%1.1f%%', explode=explode)
         ax.set_title(f'{country_name}')
 
     fig.legend(energies, loc='upper right')
     plt.tight_layout()
-    plt.savefig('sustainconsumption.png')
+    
+    save_directory = '.\image'
+    file_name = 'sustainconsumption.png'
+    save_path = os.path.join(save_directory, file_name)
+    plt.savefig(save_path)
+
+
     plt.show()
 
 if __name__ == '__main__':
