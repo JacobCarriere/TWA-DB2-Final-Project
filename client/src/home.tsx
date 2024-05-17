@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from 'react';
-
-
 function Home() {
+  localStorage.removeItem('SelectedGraph');
+
+  const handleEnter = () => {
+    window.location.href = '/Graphs'
+  }
   
   return (
       <div style={{ textAlign: 'center'}}>
-        <h1>Header 1</h1>
-        <h2>Header 2</h2>
+        <h1>World Data Energy Analysis</h1>
+        <h2>Generate graphs to help you visualize energy usage</h2>
+        <button type="button" onClick={handleEnter}>Explore Data</button>
       </div>
   );
 }
