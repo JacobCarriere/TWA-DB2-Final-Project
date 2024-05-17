@@ -6,22 +6,22 @@ function Graphs() {
     }
 
     const handle1 = () => {
-        localStorage.setItem('SelectedGraph', 'Graph1')
+        localStorage.setItem('SelectedGraph', '1')
         window.location.href = '/parameters'
     }
     
     const handle2 = () => {
-        localStorage.setItem('SelectedGraph', 'Graph2')
+        localStorage.setItem('SelectedGraph', '2')
         window.location.href = '/parameters'
     }
 
     const handle3 = () => {
-        localStorage.setItem('SelectedGraph', 'Graph3')
+        localStorage.setItem('SelectedGraph', '3')
         window.location.href = '/parameters'
     }
 
     const handle4 = () => {
-        localStorage.setItem('SelectedGraph', 'Graph4')
+        localStorage.setItem('SelectedGraph', '4')
         window.location.href = '/parameters'
     }
 
