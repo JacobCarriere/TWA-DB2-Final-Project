@@ -61,6 +61,7 @@ router.get('/firstGraph', async (req, res) => {
 
     // run the python script
     const python = spawn('python', [scriptPaths[graphType], country]);
+    console.log('graphType: ', graphType);
     console.log('country: ', country);
 
     // listen to the python sript, and await result.
@@ -87,30 +88,5 @@ router.get('/firstGraph', async (req, res) => {
         }
     })
 })
-
-
-//take the queries user put.
-router.post('/infoGraph', async (req, res) => {
-    try {
-        // Extract queries from request body
-        const { country, fromDate, toDate, energyType } = req.body;
-
-        // Perform processing of queries and generate graph
-        // Example: Call a function to generate graph based on the provided queries
-
-        // Send the result as the response
-        const result = {
-            country: country,
-            fromDate: fromDate,
-            toDate: toDate,
-            energyType: energyType,
-            // Include any other data related to the generated graph
-        };
-        res.status(200).json(result);
-    } catch (error) {
-        // Handle errors
-        res.status(400).send('The server cannot or will not process the request due to an apparent client error.');
-    }
-});
 
 module.exports = router;
