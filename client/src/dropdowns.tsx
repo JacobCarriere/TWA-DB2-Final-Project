@@ -32,12 +32,19 @@ const countries = [
     "Syria"
 ];
 
+const years = Array.from({ length: 123 }, (_, index) => 1900 + index);
+
 interface CountryDropdownProps {
     id: string;
     onSelectCountry: (country: string) => void;
 }
 
-const CountryDropdown: React.FC<CountryDropdownProps> = ({ id, onSelectCountry  }) => {
+interface YearDropdownProps {
+    id: string;
+    onSelectYear: (year: number) => void;
+}
+
+export const CountryDropdown: React.FC<CountryDropdownProps> = ({ id, onSelectCountry  }) => {
     const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         onSelectCountry(event.target.value);
     };
@@ -53,4 +60,18 @@ const CountryDropdown: React.FC<CountryDropdownProps> = ({ id, onSelectCountry  
     );
 };
 
-export default CountryDropdown;
+export const YearDropdown: React.FC<YearDropdownProps> = ({ id, onSelectYear  }) => {
+    const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        onSelectYear(parseInt(event.target.value));
+    };
+
+    return (
+        <select id={id} onChange={handleChange}>
+            {years.map((year, index) => (
+                <option key={index} value={year}>
+                    {year}
+                </option>
+            ))}
+        </select>
+    );
+};
