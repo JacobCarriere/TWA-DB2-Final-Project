@@ -37,9 +37,10 @@ ax.set_title(f'{stat} Over Last 10 Years (Top 5 Countries in {yr} + Canada)')
 ax.legend(loc='upper left')
 
 save_directory = './image'
-file_name = 'fossilconsumption.png'
+file_name = 'emissionperiod.png'
 save_path = os.path.join(save_directory, file_name)
 plt.savefig(save_path)
+
 
 plt.show()
 # python emissionperiod.py 'greenhouse_gas_emission/population/gdp' 'year'

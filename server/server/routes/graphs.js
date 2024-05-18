@@ -107,6 +107,10 @@ router.post('/pieChart', async function (req, res) {
     if (!(graphType in scriptPaths)) {
         return res.status(400).send("You've entered the wrong input for the graphType. Please, choose between 1 and 3")
     }
+    // make sure year is correct format, example '2010', no extra number or letter.
+    if (!/^\d{4}$/.test(year)) {
+        return res.status(400).send("You've entered the wrong input for the year. Please, enter a four digit year")
+    }
 
     // Ensure country is an array
     const countryArray = Array.isArray(country) ? country : [country];
@@ -143,9 +147,24 @@ router.post('/pieChart', async function (req, res) {
 })
 
 // this route should generate a bar graph
-router.post('/', async function (req, res) {
+router.post('/barGraph', async function (req, res) {
     // get the data from the request body
-    const [  ] = req.body;
+    const { stat, year, graphType } = req.body;
+    console.log('graphType: ', graphType);
+    console.log('year: ', year);
+    console.log('stat: ', stat);
+
+    // define the state like the script paths
+    const trueStats = ['population', 'gdp', 'greenhouse_gas_emissions'];
+    if (!trueStats.includes(stat)) {
+        return res.status(400).send("Invalid stat. Please choose between 'population', 'gdp', or 'greenhouse_gas_emissions'.");
+    }
+    
+    // make sure year is correct format, example '2010', no extra number or letter.
+    if (!/^\d{4}$/.test(year)) {
+        return res.status(400).send("You've entered the wrong input for the year. Please, enter a four digit year")
+    }
+
 
     // fossiconsumption = 1, sustainconsumption.py = 2, emissionperiod.py = 3
     // create a map for the scripts.
@@ -160,25 +179,23 @@ router.post('/', async function (req, res) {
     if (!(graphType in scriptPaths)) {
         return res.status(400).send("You've entered the wrong input for the graphType. Please, choose between 1 and 3")
     }
-
-    // make sure country is an array
-    const countryArray = Array.isArray(country) ? country : [country];
-
+    
     // run the python script
-    const python = spawn('python', [scriptPaths[graphType], year, ...countryArray]);
-    console.log('year: ', year);
+    const python = spawn('python', [scriptPaths[graphType], stat, year]);
     console.log('graphType: ', graphType);
-    console.log('country: ', country);
+    console.log('stat: ', stat);
+    console.log('year: ', year);
+
 
     // listen to the python sript, and await result.
     python.on('close', (code) => {
         console.log('code: ', code);
         if (code === 0) {
-            // Read the generated image file
-            const imagePath = path.join(__dirname,`../image/sustainconsumption.png`);
+            // save the image file
+            const imagePath = path.join(__dirname,`../image/emissionperiod.png`);
+            console.log('imagePath: ', imagePath);
                 // Read the image
                 const imageBuffer = fs.readFileSync(imagePath);
-                console.log('imagePath: ', imagePath);
 
                 // Set response headers
                 res.set({
