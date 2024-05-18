@@ -33,6 +33,7 @@ const countries = [
 ];
 
 const years = Array.from({ length: 123 }, (_, index) => 1900 + index);
+const stats = ["population", "gdp", "greenhouse_gas_emissions"];
 
 interface CountryDropdownProps {
     id: string;
@@ -44,13 +45,26 @@ interface YearDropdownProps {
     onSelectYear: (year: number) => void;
 }
 
-export const CountryDropdown: React.FC<CountryDropdownProps> = ({ id, onSelectCountry  }) => {
+interface StatDropdownProps {
+    id: string;
+    onSelectStat: (stat: string) => void;
+}
+
+const capitalize = (str: string) => {
+    return str
+        .split('_')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+};
+
+export const CountryDropdown: React.FC<CountryDropdownProps> = ({ id, onSelectCountry }) => {
     const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         onSelectCountry(event.target.value);
     };
 
     return (
-        <select id={id} onChange={handleChange}>
+        <select id={id} onChange={handleChange} defaultValue="">
+            <option value="" disabled>Select a country</option>
             {countries.map((country, index) => (
                 <option key={index} value={country}>
                     {country}
@@ -60,16 +74,34 @@ export const CountryDropdown: React.FC<CountryDropdownProps> = ({ id, onSelectCo
     );
 };
 
-export const YearDropdown: React.FC<YearDropdownProps> = ({ id, onSelectYear  }) => {
+export const YearDropdown: React.FC<YearDropdownProps> = ({ id, onSelectYear }) => {
     const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         onSelectYear(parseInt(event.target.value));
     };
 
     return (
-        <select id={id} onChange={handleChange}>
+        <select id={id} onChange={handleChange} defaultValue="">
+            <option value="" disabled>Select a year</option>
             {years.map((year, index) => (
                 <option key={index} value={year}>
                     {year}
+                </option>
+            ))}
+        </select>
+    );
+};
+
+export const StatDropdown: React.FC<StatDropdownProps> = ({ id, onSelectStat }) => {
+    const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        onSelectStat(event.target.value);
+    };
+
+    return (
+        <select id={id} onChange={handleChange} defaultValue="">
+            <option value="" disabled>Select a stat</option>
+            {stats.map((stat, index) => (
+                <option key={index} value={stat}>
+                    {capitalize(stat)}
                 </option>
             ))}
         </select>
