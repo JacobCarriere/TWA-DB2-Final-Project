@@ -40,10 +40,10 @@ router.get('/python/:param1', async (req, res) => {
 });
 
 // this router will be using json body.
-router.get('/firstGraph', async (req, res) => {
+router.get('/firstGraph/:country/:graphType', async (req, res) => {
     // get the queries from the json body
     // the graphType should be between one to 3. 
-    const { country, graphType } = req.body;
+    const { country, graphType } = req.params;
 
     // fossiconsumption = 1, sustainconsumption.py = 2, emissionperiod.py = 3
     // create a map for the scripts.
@@ -51,12 +51,13 @@ router.get('/firstGraph', async (req, res) => {
     const scriptPaths = {
         '1': 'scripts/fossilconsumption.py',
         '2': 'scripts/sustainconsumption.py',
-        '3': 'scripts/emissionperiod.py'
+        '3': 'scripts/emissionperiod.py',
+        '4': 'scripts/energydemand.py'
     }
 
     // make sure graph is one of in the map.
     if (!(graphType in scriptPaths)) {
-        return res.status(400).send("You've entered the wrong input for the graphType. Please, choose between 1 and 3")
+        return res.status(400).send("You've entered the wrong input for the graphType. Please, choose between 1 and 4")
     }
 
     // run the python script
@@ -100,12 +101,13 @@ router.post('/pieChart', async function (req, res) {
     const scriptPaths = {
         '1': 'scripts/fossilconsumption.py',
         '2': 'scripts/sustainconsumption.py',
-        '3': 'scripts/emissionperiod.py'
+        '3': 'scripts/emissionperiod.py',
+        '4': 'scripts/energydemand.py'
     }
 
     // make sure graph is one of in the map.
     if (!(graphType in scriptPaths)) {
-        return res.status(400).send("You've entered the wrong input for the graphType. Please, choose between 1 and 3")
+        return res.status(400).send("You've entered the wrong input for the graphType. Please, choose between 1 and 4")
     }
     // make sure year is correct format, example '2010', no extra number or letter.
     if (!/^\d{4}$/.test(year)) {
@@ -172,12 +174,13 @@ router.post('/barGraph', async function (req, res) {
     const scriptPaths = {
         '1': 'scripts/fossilconsumption.py',
         '2': 'scripts/sustainconsumption.py',
-        '3': 'scripts/emissionperiod.py'
+        '3': 'scripts/emissionperiod.py',
+        '4': 'scripts/energydemand.py'
     }
 
     // make sure graph is one of in the map.
     if (!(graphType in scriptPaths)) {
-        return res.status(400).send("You've entered the wrong input for the graphType. Please, choose between 1 and 3")
+        return res.status(400).send("You've entered the wrong input for the graphType. Please, choose between 1 and 4")
     }
     
     // run the python script
@@ -213,9 +216,9 @@ router.post('/barGraph', async function (req, res) {
 })
 
 // the following is the last graph
-router.post('/', async function (req, res) {
+router.post('/lastgraph', async function (req, res) {
     // get the data from the request body
-    const { } = req.body;
+    const { country, graphType, year } = req.body;
 
     // fossiconsumption = 1, sustainconsumption.py = 2, emissionperiod.py = 3
     // create a map for the scripts.
@@ -223,19 +226,22 @@ router.post('/', async function (req, res) {
     const scriptPaths = {
         '1': 'scripts/fossilconsumption.py',
         '2': 'scripts/sustainconsumption.py',
-        '3': 'scripts/emissionperiod.py'
+        '3': 'scripts/emissionperiod.py',
+        '4': 'scripts/energydemand.py'
     }
 
     // make sure graph is one of in the map.
     if (!(graphType in scriptPaths)) {
-        return res.status(400).send("You've entered the wrong input for the graphType. Please, choose between 1 and 3")
+        return res.status(400).send("You've entered the wrong input for the graphType. Please, choose between 1 and 4")
     }
 
-    // make sure country is an array
-    const countryArray = Array.isArray(country) ? country : [country];
+    // make sure year is correct format, example '2010', no extra number or letter.
+    if (!/^\d{4}$/.test(year)) {
+        return res.status(400).send("You've entered the wrong input for the year. Please, enter a four digit year")
+    }
 
     // run the python script
-    const python = spawn('python', [scriptPaths[graphType], year, ...countryArray]);
+    const python = spawn('python', [scriptPaths[graphType], country, year]);
     console.log('year: ', year);
     console.log('graphType: ', graphType);
     console.log('country: ', country);
@@ -245,7 +251,7 @@ router.post('/', async function (req, res) {
         console.log('code: ', code);
         if (code === 0) {
             // Read the generated image file
-            const imagePath = path.join(__dirname,`../image/sustainconsumption.png`);
+            const imagePath = path.join(__dirname,`../image/energydemand.png`);
                 // Read the image
                 const imageBuffer = fs.readFileSync(imagePath);
                 console.log('imagePath: ', imagePath);

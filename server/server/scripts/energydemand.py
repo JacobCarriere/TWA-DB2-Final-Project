@@ -1,3 +1,4 @@
+import os
 import sys
 import pymongo
 import matplotlib.pyplot as plt
@@ -39,5 +40,11 @@ plt.xlabel('Year')
 plt.xticks(df['year'])
 plt.ylabel('Energy')
 plt.legend()
-plt.savefig("energydemand.png")
+
+save_directory = './image'
+file_name = 'energydemand.png'
+save_path = os.path.join(save_directory, file_name)
+plt.savefig(save_path)
+
+
 plt.show()
