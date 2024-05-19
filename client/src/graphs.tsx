@@ -1,3 +1,5 @@
+import './App.css'
+
 function Graphs() {
     localStorage.removeItem('SelectedGraph');
 
@@ -27,7 +29,7 @@ function Graphs() {
 
   return (
     <div>
-        <button type="button" onClick={handleBack}>Back</button>
+        <button type="button" className="back-button" onClick={handleBack}>Back</button>
         <h1>Select Graph Type</h1>
         <button type="button" onClick={handle1}>Graph 1</button>
         <button type="button" onClick={handle2}>Graph 2</button>

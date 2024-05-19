@@ -5,12 +5,15 @@
   text-align: center;
 }
 
+body{margin:auto}
+
 .logo {
   height: 6em;
   padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
@@ -39,4 +42,11 @@
 
 .read-the-docs {
   color: #888;
+}
+
+.back-button {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1000;
 }

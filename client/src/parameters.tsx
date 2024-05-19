@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import {CountryDropdown, YearDropdown, StatDropdown} from './dropdowns'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import './App.css'
 
 
 function Parameters() {
@@ -42,7 +43,10 @@ function Parameters() {
                 <div><StatDropdown id="statDropdown" onSelectStat={setSelectedStat} /></div>
             </div>
             case '4':
-                return <div>You chose graph 4</div>
+                return <div>
+                <div><CountryDropdown id="countryDropdown" onSelectCountry={setSelectedCountry} /></div>
+                <div><YearDropdown id="yearDropDown" onSelectYear={setSelectedYear} /></div>
+            </div>
         }
     }
 
@@ -153,6 +157,38 @@ function Parameters() {
                     toast.error("Select a year.");
                 }
             }   
+        } else if (selectedGraph === '4') {
+            if (selectedCountry && selectedYear) {
+                try {
+                    const url = new URL('http://localhost:5000/lastgraph', window.location.origin);
+                    url.searchParams.append('year', selectedYear.toString());
+                    url.searchParams.append('country', selectedCountry);
+                    url.searchParams.append('graphType', selectedGraph);
+
+                    const response = await fetch(url.toString(), {
+                        method: 'GET',
+                    });
+            
+                    if (response.ok) {
+                        toast.success("Generating graph...");
+                        const imageUrl = 'http://localhost:5000/image/energydemand.png';
+                        localStorage.setItem('GeneratedGraph', imageUrl);
+                        window.location.href = '/YourGraph';
+                    } else {
+                        console.error('Failed to generate graph:', response.statusText);
+                        toast.error('Failed to generate graph.');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            } else {
+                if (!selectedCountry) {
+                    toast.error("Select a country.");
+                }
+                if (!selectedYear) {
+                    toast.error("Select a year.");
+                }
+            }   
         } else {
             window.location.href = '/YourGraph';
         }
@@ -162,7 +198,7 @@ function Parameters() {
 
   return (
     <div>
-        <button type="button" onClick={handleBack}>Back</button>
+        <button type="button" onClick={handleBack} className="back-button">Back</button>
         <ToastContainer />
         <h1>Parameters</h1>
         {displayedParameters()}

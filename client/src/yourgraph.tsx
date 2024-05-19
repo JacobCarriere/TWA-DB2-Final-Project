@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import 'react-toastify/dist/ReactToastify.css';
+import './App.css'
 
 function YourGraph() {
     const [imageUrl, setImageUrl] = useState('');
@@ -30,7 +31,7 @@ function YourGraph() {
 
     return (
         <div>
-            <button type="button" onClick={handleBack}>Back</button>
+            <button type="button" onClick={handleBack} className="back-button">Back</button>
             <h1>Your Graph</h1>
             {imageUrl && <img src={imageUrl} alt="Generated Graph" />}
             {imageUrl && <button type="button" onClick={handleDownload}>Download Graph</button>}
