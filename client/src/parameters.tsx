@@ -7,6 +7,7 @@ import './App.css'
 
 
 function Parameters() {
+    localStorage.removeItem('GeneratedGraph');
     const navigate  = useNavigate();
     const [selectedGraph, setSelectedGraph] = useState('');
     const [selectedCountry, setSelectedCountry] = useState('');

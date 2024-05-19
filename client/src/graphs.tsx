@@ -7,6 +7,7 @@ import graph4Img from './images/graph4.png';
 
 function Graphs() {
     localStorage.removeItem('SelectedGraph');
+    localStorage.removeItem('GeneratedGraph');
     const navigate  = useNavigate();
 
     const handleBack = () => {

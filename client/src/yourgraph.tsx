@@ -12,7 +12,7 @@ function YourGraph() {
         if (storedImageUrl) {
             setImageUrl(storedImageUrl);
         } else {
-            console.error('No generated graph image found.');
+            navigate('/');
         }
     }, []);
 
