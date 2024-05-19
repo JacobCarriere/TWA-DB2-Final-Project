@@ -44,9 +44,41 @@ body{margin:auto}
   color: #888;
 }
 
+.container {
+  text-align: center;
+  padding: 20px;
+}
+
 .back-button {
   position: absolute;
-  top: 10px;
-  left: 10px;
-  z-index: 1000;
+  top: 20px;
+  left: 20px;
+}
+
+.button-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  justify-items: center;
+  margin-top: 20px;
+}
+
+.graph-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.button-image {
+  width: 500px;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.graph-button {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  cursor: pointer;
 }

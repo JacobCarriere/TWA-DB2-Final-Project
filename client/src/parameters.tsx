@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import {CountryDropdown, YearDropdown, StatDropdown} from './dropdowns'
 import { ToastContainer, toast } from 'react-toastify';
+import { useNavigate  } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css'
 
 
 function Parameters() {
+    const navigate  = useNavigate();
     const [selectedGraph, setSelectedGraph] = useState('');
     const [selectedCountry, setSelectedCountry] = useState('');
     const [selectedCountry2, setSelectedCountry2] = useState('');
@@ -17,7 +19,7 @@ function Parameters() {
     useEffect(() => {
         const token = localStorage.getItem('SelectedGraph');
         if (!token) {
-          window.location.href = '/graphs';  
+            navigate('/Graphs');  
         } else {
             setSelectedGraph(token);
         }
@@ -51,7 +53,7 @@ function Parameters() {
     }
 
     const handleBack = () => {
-        window.location.href = '/graphs'
+        navigate('/graphs');
     }
 
     const handleGenerate = async () => {
@@ -70,7 +72,7 @@ function Parameters() {
                         toast.success("Generating graph...");
                         const imageUrl = 'http://localhost:5000/image/fossilconsumption.png';
                         localStorage.setItem('GeneratedGraph', imageUrl);
-                        window.location.href = '/YourGraph';
+                        navigate('/YourGraph');
                     } else {
                         console.error('Failed to generate graph:', response.statusText);
                         toast.error('Failed to generate graph.');
@@ -109,7 +111,7 @@ function Parameters() {
                         toast.success("Generating graph...");
                         const imageUrl = 'http://localhost:5000/image/sustainconsumption.png';
                         localStorage.setItem('GeneratedGraph', imageUrl);
-                        window.location.href = '/YourGraph';
+                        navigate('/YourGraph');
                     } else {
                         console.error('Failed to generate graph:', response.statusText);
                         toast.error('Failed to generate graph.');
@@ -141,7 +143,7 @@ function Parameters() {
                         toast.success("Generating graph...");
                         const imageUrl = 'http://localhost:5000/image/emissionperiod.png';
                         localStorage.setItem('GeneratedGraph', imageUrl);
-                        window.location.href = '/YourGraph';
+                        navigate('/YourGraph');
                     } else {
                         console.error('Failed to generate graph:', response.statusText);
                         toast.error('Failed to generate graph.');
@@ -173,7 +175,7 @@ function Parameters() {
                         toast.success("Generating graph...");
                         const imageUrl = 'http://localhost:5000/image/energydemand.png';
                         localStorage.setItem('GeneratedGraph', imageUrl);
-                        window.location.href = '/YourGraph';
+                        navigate('/YourGraph');
                     } else {
                         console.error('Failed to generate graph:', response.statusText);
                         toast.error('Failed to generate graph.');
@@ -190,7 +192,7 @@ function Parameters() {
                 }
             }   
         } else {
-            window.location.href = '/YourGraph';
+            navigate('/YourGraph');
         }
     };
     

@@ -40,10 +40,10 @@ router.get('/python/:param1', async (req, res) => {
 });
 
 // this router will be using json body.
-router.get('/firstGraph/:country/:graphType', async (req, res) => {
+router.get('/firstGraph/', async (req, res) => {
     // get the queries from the json body
     // the graphType should be between one to 3. 
-    const { country, graphType } = req.params;
+    const { country, graphType } = req.query;
 
     // fossiconsumption = 1, sustainconsumption.py = 2, emissionperiod.py = 3
     // create a map for the scripts.
@@ -92,8 +92,8 @@ router.get('/firstGraph/:country/:graphType', async (req, res) => {
 
 
 // generate the pie graph based on the json body.
-router.post('/pieChart', async function (req, res) {
-    const { year, country, graphType } = req.body;
+router.get('/pieChart', async function (req, res) {
+    const { year, country, graphType } = req.query;
 
     // fossiconsumption = 1, sustainconsumption.py = 2, emissionperiod.py = 3
     // create a map for the scripts.
@@ -149,9 +149,9 @@ router.post('/pieChart', async function (req, res) {
 })
 
 // this route should generate a bar graph
-router.post('/barGraph', async function (req, res) {
+router.get('/barGraph', async function (req, res) {
     // get the data from the request body
-    const { stat, year, graphType } = req.body;
+    const { stat, year, graphType } = req.query;
     console.log('graphType: ', graphType);
     console.log('year: ', year);
     console.log('stat: ', stat);
@@ -216,9 +216,9 @@ router.post('/barGraph', async function (req, res) {
 })
 
 // the following is the last graph
-router.post('/lastgraph', async function (req, res) {
+router.get('/lastgraph', async function (req, res) {
     // get the data from the request body
-    const { country, graphType, year } = req.body;
+    const { country, graphType, year } = req.query;
 
     // fossiconsumption = 1, sustainconsumption.py = 2, emissionperiod.py = 3
     // create a map for the scripts.

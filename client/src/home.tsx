@@ -1,10 +1,12 @@
 import './App.css'
+import { useNavigate  } from 'react-router-dom';
 
 function Home() {
   localStorage.removeItem('SelectedGraph');
+  const navigate  = useNavigate();
 
   const handleEnter = () => {
-    window.location.href = '/Graphs'
+    navigate('/Graphs');
   }
   
   return (
