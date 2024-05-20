@@ -172,7 +172,7 @@ function Parameters() {
         } else if (selectedGraph === '4') {
             if (selectedCountry && selectedYear) {
                 try {
-                    const baseUrl = '/barGraph';
+                    const baseUrl = '/lastgraph';
                     const url = new URL(baseUrl, window.location.origin);// this needs to be changed for deployment. default: const url = new URL('http://localhost:5000/lastgraph', window.location.origin); 
                     url.searchParams.append('year', selectedYear.toString());
                     url.searchParams.append('country', selectedCountry);
