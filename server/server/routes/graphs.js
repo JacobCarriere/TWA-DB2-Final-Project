@@ -10,7 +10,7 @@ const jwt = require('jsonwebtoken');
 // this router is for the prototype
 router.get('/python/:param1', async (req, res) => {
     // run the Python file
-    const python = spawn('python', ['scripts/fossilconsumption.py', req.params.param1]);
+    const python = spawn('python3', ['scripts/fossilconsumption.py', req.params.param1]);
     console.log('req.params.param1: ', req.params.param1);
 
     // listen to Python script, await the result.
@@ -61,7 +61,7 @@ router.get('/firstGraph/', async (req, res) => {
     }
 
     // run the python script
-    const python = spawn('python', [scriptPaths[graphType], country]);
+    const python = spawn('python3', [scriptPaths[graphType], country]);
     console.log('graphType: ', graphType);
     console.log('country: ', country);
 
@@ -118,7 +118,7 @@ router.get('/pieChart', async function (req, res) {
     const countryArray = Array.isArray(country) ? country : [country];
 
     // run the python script
-    const python = spawn('python', [scriptPaths[graphType], year, ...countryArray]);
+    const python = spawn('python3', [scriptPaths[graphType], year, ...countryArray]);
     console.log('year: ', year);
     console.log('graphType: ', graphType);
     console.log('country: ', country);
@@ -184,7 +184,7 @@ router.get('/barGraph', async function (req, res) {
     }
     
     // run the python script
-    const python = spawn('python', [scriptPaths[graphType], stat, year]);
+    const python = spawn('python3', [scriptPaths[graphType], stat, year]);
     console.log('graphType: ', graphType);
     console.log('stat: ', stat);
     console.log('year: ', year);
@@ -241,7 +241,7 @@ router.get('/lastgraph', async function (req, res) {
     }
 
     // run the python script
-    const python = spawn('python', [scriptPaths[graphType], country, year]);
+    const python = spawn('python3', [scriptPaths[graphType], country, year]);
     console.log('year: ', year);
     console.log('graphType: ', graphType);
     console.log('country: ', country);

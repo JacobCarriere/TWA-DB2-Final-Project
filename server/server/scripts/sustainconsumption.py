@@ -46,7 +46,6 @@ def plot_sustainable_energy_consumption(year, country_names):
     plt.savefig(save_path)
 
 
-    plt.show()
 
 if __name__ == '__main__':
 
