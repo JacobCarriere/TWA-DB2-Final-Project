@@ -3,9 +3,17 @@ import sys
 import pymongo
 import matplotlib.pyplot as plt
 import pandas as pd
+from dotenv import load_dotenv
+# Load environment variables from .env file
+load_dotenv()
 
 def plot_sustainable_energy_consumption(year, country_names):
-    client = pymongo.MongoClient('mongodb+srv://joshlacroix:NByewvwMRgR8hM0C@movieappdata.dhsk4vr.mongodb.net/')
+    db_host = os.getenv('DB_HOST')
+    if not db_host:
+        raise ValueError("No DB_HOST found in environment variables")
+
+    # Connect to MongoDB
+    client = pymongo.MongoClient(db_host)
     db = client['energy_consumption']
     collection = db['country_energy']
 
@@ -46,8 +54,6 @@ def plot_sustainable_energy_consumption(year, country_names):
     save_path = os.path.join(save_directory, file_name)
     plt.savefig(save_path)
 
-
-    plt.show()
 
 if __name__ == '__main__':
 

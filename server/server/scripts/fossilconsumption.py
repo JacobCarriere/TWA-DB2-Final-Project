@@ -2,11 +2,19 @@ import matplotlib.pyplot as plt
 import pymongo
 import sys
 import os
-
+from dotenv import load_dotenv
+# Load environment variables from .env file
+load_dotenv()
 arguments = sys.argv
 
 def plot_fossil_energy_consumption(country_name):
-    client = pymongo.MongoClient('mongodb+srv://joshlacroix:NByewvwMRgR8hM0C@movieappdata.dhsk4vr.mongodb.net/')
+    
+    db_host = os.getenv('DB_HOST')
+    if not db_host:
+        raise ValueError("No DB_HOST found in environment variables")
+
+    # Connect to MongoDB
+    client = pymongo.MongoClient(db_host)
     db = client['energy_consumption']
     collection = db['country_energy']
 
