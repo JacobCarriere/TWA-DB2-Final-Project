@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react';
-import {CountryDropdown, YearDropdown, StatDropdown} from './dropdowns'
+import { CountryDropdown, YearDropdown, StatDropdown } from './dropdowns';
 import { ToastContainer, toast } from 'react-toastify';
-import { useNavigate  } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
-import './App.css'
-
+import './App.css';
 
 function Parameters() {
+    const serverUrl = import.meta.env.VITE_APP_SERVER_URL;
+    var GraphUrl = ''
     localStorage.removeItem('GeneratedGraph');
-    const navigate  = useNavigate();
+    const navigate = useNavigate();
     const [selectedGraph, setSelectedGraph] = useState('');
     const [selectedCountry, setSelectedCountry] = useState('');
     const [selectedCountry2, setSelectedCountry2] = useState('');
@@ -20,204 +21,124 @@ function Parameters() {
     useEffect(() => {
         const token = localStorage.getItem('SelectedGraph');
         if (!token) {
-            navigate('/Graphs');  
+            navigate('/Graphs');
         } else {
             setSelectedGraph(token);
         }
-      }, []);
+    }, []);
 
-      const displayedParameters = () => {
+    const displayedParameters = () => {
         switch (selectedGraph) {
             case '1':
-                return <div>
-                            <CountryDropdown id="countryDropdown" onSelectCountry={setSelectedCountry} />
-                        </div>
+                return (
+                    <div>
+                        <CountryDropdown id="countryDropdown" onSelectCountry={setSelectedCountry} />
+                    </div>
+                );
             case '2':
-                return <div>
-                            <div><CountryDropdown id="countryDropdown" onSelectCountry={setSelectedCountry} /></div>
-                            <div><CountryDropdown id="countryDropdown" onSelectCountry={setSelectedCountry2} /></div>
-                            <div><CountryDropdown id="countryDropdown" onSelectCountry={setSelectedCountry3} /></div>
-                            <div><CountryDropdown id="countryDropdown" onSelectCountry={setSelectedCountry4} /></div>
-                            <div><YearDropdown id="yearDropDown" onSelectYear={setSelectedYear} /></div>
-                        </div>
+                return (
+                    <div>
+                        <div><CountryDropdown id="countryDropdown" onSelectCountry={setSelectedCountry} /></div>
+                        <div><CountryDropdown id="countryDropdown" onSelectCountry={setSelectedCountry2} /></div>
+                        <div><CountryDropdown id="countryDropdown" onSelectCountry={setSelectedCountry3} /></div>
+                        <div><CountryDropdown id="countryDropdown" onSelectCountry={setSelectedCountry4} /></div>
+                        <div><YearDropdown id="yearDropDown" onSelectYear={setSelectedYear} /></div>
+                    </div>
+                );
             case '3':
-                return <div>
-                <div><YearDropdown id="yearDropDown" onSelectYear={setSelectedYear} /></div>
-                <div><StatDropdown id="statDropdown" onSelectStat={setSelectedStat} /></div>
-            </div>
+                return (
+                    <div>
+                        <div><YearDropdown id="yearDropDown" onSelectYear={setSelectedYear} /></div>
+                        <div><StatDropdown id="statDropdown" onSelectStat={setSelectedStat} /></div>
+                    </div>
+                );
             case '4':
-                return <div>
-                <div><CountryDropdown id="countryDropdown" onSelectCountry={setSelectedCountry} /></div>
-                <div><YearDropdown id="yearDropDown" onSelectYear={setSelectedYear} /></div>
-            </div>
+                return (
+                    <div>
+                        <div><CountryDropdown id="countryDropdown" onSelectCountry={setSelectedCountry} /></div>
+                        <div><YearDropdown id="yearDropDown" onSelectYear={setSelectedYear} /></div>
+                    </div>
+                );
+            default:
+                return null;
         }
-    }
+    };
 
     const handleBack = () => {
         navigate('/graphs');
-    }
+    };
 
     const handleGenerate = async () => {
-        if (selectedGraph === '1') {
-            if (selectedCountry) {
-                try {
-                    // 2 ways to do it,    
-                    // const url = new URL('/firstGraph', window.location.origin);
-                    // or
-                    // baseUrl = '/barGraph'; const url = new URL(baseUrl, window.location.origin);
-                    const baseUrl = '/firstGraph';
-                    const url = new URL(baseUrl, window.location.origin); // this needs to be changed for deployment (THE DEFAULT WAS: const url = new URL('http://localhost:5000/firstGraph', window.location.origin);).
-                    url.searchParams.append('country', selectedCountry);
-                    url.searchParams.append('graphType', selectedGraph);
-    
-                    const response = await fetch(url.toString(), {
-                        method: 'GET',
-                    });
-    
-                    if (response.ok) {
-                        toast.success("Generating graph...");
-                        // way to do it: const imageUrl = '/image/fossilconsumption.png'; OR  const imageUrl = `${window.location.origin}/image/fossilconsumption.png`;
-                        const imageUrl = `${window.location.origin}/image/fossilconsumption.png`; // this needs to be changed for deployment. (DEFAULT WAS: const imageUrl = 'http://localhost:5000/image/fossilconsumption.png';
-                        localStorage.setItem('GeneratedGraph', imageUrl);
-                        navigate('/YourGraph');
-                    } else {
-                        console.error('Failed to generate graph:', response.statusText);
-                        toast.error('Failed to generate graph.');
-                    }
-                } catch (error) {
-                    console.error('Error:', error);
+        let url = '';
+        try {
+            if (selectedGraph === '1') {
+                if (selectedCountry) {
+                    GraphUrl = 'fossilconsumption'
+                    url = `${serverUrl}/firstGraph?country=${selectedCountry}&graphType=${selectedGraph}`;
+                } else {
+                    toast.error("Select a country.");
+                    return;
+                }
+            } else if (selectedGraph === '2') {
+                if (selectedCountry && selectedYear) {
+                    GraphUrl = 'sustainconsumption'
+                    url = `${serverUrl}/pieChart?year=${selectedYear}&country=${selectedCountry}&graphType=${selectedGraph}`;
+                    if (selectedCountry2) url += `&country=${selectedCountry2}`;
+                    if (selectedCountry3) url += `&country=${selectedCountry3}`;
+                    if (selectedCountry4) url += `&country=${selectedCountry4}`;
+                } else {
+                    if (!selectedCountry) toast.error("Select a country.");
+                    if (!selectedYear) toast.error("Select a year.");
+                    return;
+                }
+            } else if (selectedGraph === '3') {
+                if (selectedYear && selectedStat) {
+                    GraphUrl = 'emissionperiod'
+                    url = `${serverUrl}/barGraph?stat=${selectedStat}&year=${selectedYear}&graphType=${selectedGraph}`;
+                } else {
+                    if (!selectedStat) toast.error("Select a stat.");
+                    if (!selectedYear) toast.error("Select a year.");
+                    return;
+                }
+            } else if (selectedGraph === '4') {
+                if (selectedCountry && selectedYear) {
+                    GraphUrl = 'energydemand'
+                    url = `${serverUrl}/lastgraph?year=${selectedYear}&country=${selectedCountry}&graphType=${selectedGraph}`;
+                } else {
+                    if (!selectedCountry) toast.error("Select a country.");
+                    if (!selectedYear) toast.error("Select a year.");
+                    return;
                 }
             } else {
-                toast.error("Select a country.");
+                navigate('/YourGraph');
+                return;
             }
-        } else if (selectedGraph === '2') {
-            if (selectedCountry && selectedYear) {
-                try {
-                    const baseUrl = '/pieChart';
-                    const url = new URL(baseUrl, window.location.origin); // this needs to be changed for deployment. DEFAULT WAS: const url = new URL('http://localhost:5000/pieChart', window.location.origin);
-                    url.searchParams.append('year', selectedYear.toString());
-                    url.searchParams.append('country', selectedCountry);
-                    url.searchParams.append('graphType', selectedGraph);
 
-                    if (selectedCountry2) {
-                        url.searchParams.append('country', selectedCountry2);
-                    }
+            const response = await fetch(url, { method: 'GET' });
 
-                    if (selectedCountry3) {
-                        url.searchParams.append('country', selectedCountry3);
-                    }
-
-                    if (selectedCountry4) {
-                        url.searchParams.append('country', selectedCountry4);
-                    }
-
-                    const response = await fetch(url.toString(), {
-                        method: 'GET',
-                    });
-            
-                    if (response.ok) {
-                        toast.success("Generating graph...");
-                        const imageUrl = `${window.location.origin}/image/sustainconsumption.png`; // this needs to be changed for deployment. Maybe? Default: const imageUrl = 'http://localhost:5000/image/sustainconsumption.png';
-                        localStorage.setItem('GeneratedGraph', imageUrl);
-                        navigate('/YourGraph');
-                    } else {
-                        console.error('Failed to generate graph:', response.statusText);
-                        toast.error('Failed to generate graph.');
-                    }
-                } catch (error) {
-                    console.error('Error:', error);
-                }
+            if (response.ok) {
+                toast.success("Generating graph...");
+                const imageUrl = `${serverUrl}/image/${GraphUrl}.png`; // Update according to actual endpoint
+                localStorage.setItem('GeneratedGraph', imageUrl);
+                navigate('/YourGraph');
             } else {
-                if (!selectedCountry) {
-                    toast.error("Select a country.");
-                }
-                if (!selectedYear) {
-                    toast.error("Select a year.");
-                }
-            }   
-        } else if (selectedGraph === '3') {
-            if (selectedYear && selectedStat) {
-                try {
-                    const baseUrl = '/barGraph';
-                    const url = new URL(baseUrl, window.location.origin);  // this needs to be changed for deployment. Default: const url = new URL('http://localhost:5000/barGraph', window.location.origin);
-
-                    url.searchParams.append('stat', selectedStat);
-                    url.searchParams.append('year', selectedYear.toString());
-                    url.searchParams.append('graphType', selectedGraph);
-            
-                    const response = await fetch(url.toString(), {
-                        method: 'GET',
-                    });
-            
-                    if (response.ok) {
-                        toast.success("Generating graph...");
-                        const imageUrl = `${window.location.origin}/image/emissionperiod.png`;  // this needs to be changed for deployment. As well maybe? Ai says to use relative path instead of localhost. Default: const imageUrl = 'http://localhost:5000/image/emissionperiod.png';
-                        localStorage.setItem('GeneratedGraph', imageUrl);
-                        navigate('/YourGraph');
-                    } else {
-                        console.error('Failed to generate graph:', response.statusText);
-                        toast.error('Failed to generate graph.');
-                    }
-                } catch (error) {
-                    console.error('Error:', error);
-                }
-            } else {
-                if (!selectedStat) {
-                    toast.error("Select a stat.");
-                }
-                if (!selectedYear) {
-                    toast.error("Select a year.");
-                }
-            }   
-        } else if (selectedGraph === '4') {
-            if (selectedCountry && selectedYear) {
-                try {
-                    const baseUrl = '/barGraph';
-                    const url = new URL(baseUrl, window.location.origin);// this needs to be changed for deployment. default: const url = new URL('http://localhost:5000/lastgraph', window.location.origin); 
-                    url.searchParams.append('year', selectedYear.toString());
-                    url.searchParams.append('country', selectedCountry);
-                    url.searchParams.append('graphType', selectedGraph);
-
-                    const response = await fetch(url.toString(), {
-                        method: 'GET',
-                    });
-            
-                    if (response.ok) {
-                        toast.success("Generating graph...");
-                        const imageUrl = `${window.location.origin}/image/energydemand.png`;// this needs to be changed for deployment. Use of relative path instead of localhost. Default: const imageUrl = 'http://localhost:5000/image/energydemand.png';
-                        localStorage.setItem('GeneratedGraph', imageUrl);
-                        navigate('/YourGraph');
-                    } else {
-                        console.error('Failed to generate graph:', response.statusText);
-                        toast.error('Failed to generate graph.');
-                    }
-                } catch (error) {
-                    console.error('Error:', error);
-                }
-            } else {
-                if (!selectedCountry) {
-                    toast.error("Select a country.");
-                }
-                if (!selectedYear) {
-                    toast.error("Select a year.");
-                }
-            }   
-        } else {
-            navigate('/YourGraph');
+                console.error('Failed to generate graph:', response.statusText);
+                toast.error('Failed to generate graph.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
         }
     };
-    
 
-
-  return (
-    <div>
-        <button type="button" onClick={handleBack} className="back-button">Back</button>
-        <ToastContainer />
-        <h1>Parameters</h1>
-        {displayedParameters()}
-        <button type="button" onClick={handleGenerate}>Generate Graph</button>
-    </div>
-  )
+    return (
+        <div>
+            <button type="button" onClick={handleBack} className="back-button">Back</button>
+            <ToastContainer />
+            <h1>Parameters</h1>
+            {displayedParameters()}
+            <button type="button" onClick={handleGenerate}>Generate Graph</button>
+        </div>
+    );
 }
 
-export default Parameters
+export default Parameters;
