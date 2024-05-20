@@ -65,7 +65,8 @@ function Parameters() {
                     // const url = new URL('/firstGraph', window.location.origin);
                     // or
                     // baseUrl = '/barGraph'; const url = new URL(baseUrl, window.location.origin);
-                    const url = new URL('http://localhost:5000/firstGraph', window.location.origin); // this needs to be changed for deployment.
+                    const baseUrl = '/firstGraph';
+                    const url = new URL(baseUrl, window.location.origin); // this needs to be changed for deployment (THE DEFAULT WAS: const url = new URL('http://localhost:5000/firstGraph', window.location.origin);).
                     url.searchParams.append('country', selectedCountry);
                     url.searchParams.append('graphType', selectedGraph);
     
@@ -76,7 +77,7 @@ function Parameters() {
                     if (response.ok) {
                         toast.success("Generating graph...");
                         // way to do it: const imageUrl = '/image/fossilconsumption.png'; OR  const imageUrl = `${window.location.origin}/image/fossilconsumption.png`;
-                        const imageUrl = 'http://localhost:5000/image/fossilconsumption.png'; // this needs to be changed for deployment.
+                        const imageUrl = `${window.location.origin}/image/fossilconsumption.png`; // this needs to be changed for deployment. (DEFAULT WAS: const imageUrl = 'http://localhost:5000/image/fossilconsumption.png';
                         localStorage.setItem('GeneratedGraph', imageUrl);
                         navigate('/YourGraph');
                     } else {
@@ -92,7 +93,8 @@ function Parameters() {
         } else if (selectedGraph === '2') {
             if (selectedCountry && selectedYear) {
                 try {
-                    const url = new URL('http://localhost:5000/pieChart', window.location.origin); // this needs to be changed for deployment.
+                    const baseUrl = '/pieChart';
+                    const url = new URL(baseUrl, window.location.origin); // this needs to be changed for deployment. DEFAULT WAS: const url = new URL('http://localhost:5000/pieChart', window.location.origin);
                     url.searchParams.append('year', selectedYear.toString());
                     url.searchParams.append('country', selectedCountry);
                     url.searchParams.append('graphType', selectedGraph);
@@ -115,7 +117,7 @@ function Parameters() {
             
                     if (response.ok) {
                         toast.success("Generating graph...");
-                        const imageUrl = 'http://localhost:5000/image/sustainconsumption.png'; // this needs to be changed for deployment. Maybe?
+                        const imageUrl = `${window.location.origin}/image/sustainconsumption.png`; // this needs to be changed for deployment. Maybe? Default: const imageUrl = 'http://localhost:5000/image/sustainconsumption.png';
                         localStorage.setItem('GeneratedGraph', imageUrl);
                         navigate('/YourGraph');
                     } else {
@@ -136,7 +138,9 @@ function Parameters() {
         } else if (selectedGraph === '3') {
             if (selectedYear && selectedStat) {
                 try {
-                    const url = new URL('http://localhost:5000/barGraph', window.location.origin); // this needs to be changed for deployment.
+                    const baseUrl = '/barGraph';
+                    const url = new URL(baseUrl, window.location.origin);  // this needs to be changed for deployment. Default: const url = new URL('http://localhost:5000/barGraph', window.location.origin);
+
                     url.searchParams.append('stat', selectedStat);
                     url.searchParams.append('year', selectedYear.toString());
                     url.searchParams.append('graphType', selectedGraph);
@@ -147,7 +151,7 @@ function Parameters() {
             
                     if (response.ok) {
                         toast.success("Generating graph...");
-                        const imageUrl = 'http://localhost:5000/image/emissionperiod.png'; // this needs to be changed for deployment. As well maybe? Ai says to use relative path instead of localhost.
+                        const imageUrl = `${window.location.origin}/image/emissionperiod.png`;  // this needs to be changed for deployment. As well maybe? Ai says to use relative path instead of localhost. Default: const imageUrl = 'http://localhost:5000/image/emissionperiod.png';
                         localStorage.setItem('GeneratedGraph', imageUrl);
                         navigate('/YourGraph');
                     } else {
@@ -168,7 +172,8 @@ function Parameters() {
         } else if (selectedGraph === '4') {
             if (selectedCountry && selectedYear) {
                 try {
-                    const url = new URL('http://localhost:5000/lastgraph', window.location.origin); // this needs to be changed for deployment.
+                    const baseUrl = '/barGraph';
+                    const url = new URL(baseUrl, window.location.origin);// this needs to be changed for deployment. default: const url = new URL('http://localhost:5000/lastgraph', window.location.origin); 
                     url.searchParams.append('year', selectedYear.toString());
                     url.searchParams.append('country', selectedCountry);
                     url.searchParams.append('graphType', selectedGraph);
@@ -179,7 +184,7 @@ function Parameters() {
             
                     if (response.ok) {
                         toast.success("Generating graph...");
-                        const imageUrl = 'http://localhost:5000/image/energydemand.png'; // this needs to be changed for deployment. Use of relative path instead of localhost.
+                        const imageUrl = `${window.location.origin}/image/energydemand.png`;// this needs to be changed for deployment. Use of relative path instead of localhost. Default: const imageUrl = 'http://localhost:5000/image/energydemand.png';
                         localStorage.setItem('GeneratedGraph', imageUrl);
                         navigate('/YourGraph');
                     } else {
