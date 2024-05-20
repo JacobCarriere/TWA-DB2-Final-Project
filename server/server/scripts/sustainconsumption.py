@@ -1,7 +1,8 @@
-import matplotlib.pyplot as plt
-import pymongo
-import sys
 import os
+import sys
+import pymongo
+import matplotlib.pyplot as plt
+import pandas as pd
 
 def plot_sustainable_energy_consumption(year, country_names):
     client = pymongo.MongoClient('mongodb+srv://joshlacroix:NByewvwMRgR8hM0C@movieappdata.dhsk4vr.mongodb.net/')
@@ -40,12 +41,13 @@ def plot_sustainable_energy_consumption(year, country_names):
     fig.legend(energies, loc='upper right')
     plt.tight_layout()
     
-    save_directory = '.\image'
+    save_directory = './image'
     file_name = 'sustainconsumption.png'
     save_path = os.path.join(save_directory, file_name)
     plt.savefig(save_path)
 
 
+    plt.show()
 
 if __name__ == '__main__':
 

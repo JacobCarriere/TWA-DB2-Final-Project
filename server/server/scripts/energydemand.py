@@ -45,3 +45,6 @@ save_directory = './image'
 file_name = 'energydemand.png'
 save_path = os.path.join(save_directory, file_name)
 plt.savefig(save_path)
+
+
+plt.show()

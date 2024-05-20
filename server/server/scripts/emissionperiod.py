@@ -40,4 +40,7 @@ save_directory = './image'
 file_name = 'emissionperiod.png'
 save_path = os.path.join(save_directory, file_name)
 plt.savefig(save_path)
+
+
+plt.show()
 # python emissionperiod.py 'greenhouse_gas_emission/population/gdp' 'year'
