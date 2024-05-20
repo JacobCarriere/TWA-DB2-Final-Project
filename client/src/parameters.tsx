@@ -61,6 +61,10 @@ function Parameters() {
         if (selectedGraph === '1') {
             if (selectedCountry) {
                 try {
+                    // 2 ways to do it,    
+                    // const url = new URL('/firstGraph', window.location.origin);
+                    // or
+                    // baseUrl = '/barGraph'; const url = new URL(baseUrl, window.location.origin);
                     const url = new URL('http://localhost:5000/firstGraph', window.location.origin); // this needs to be changed for deployment.
                     url.searchParams.append('country', selectedCountry);
                     url.searchParams.append('graphType', selectedGraph);
@@ -71,6 +75,7 @@ function Parameters() {
     
                     if (response.ok) {
                         toast.success("Generating graph...");
+                        // way to do it: const imageUrl = '/image/fossilconsumption.png'; OR  const imageUrl = `${window.location.origin}/image/fossilconsumption.png`;
                         const imageUrl = 'http://localhost:5000/image/fossilconsumption.png'; // this needs to be changed for deployment.
                         localStorage.setItem('GeneratedGraph', imageUrl);
                         navigate('/YourGraph');

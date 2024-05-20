@@ -19,7 +19,7 @@ app.use(cors());
 app.use(morgan('tiny')); // loger
 app.use(express.json()); // body-parcer
 
-// this is the client route
+// this is the client route. Takes dist.
 app.use('/', express.static(path.join(__dirname, 'dist')));
 app.use('/image', express.static(path.join(__dirname, 'image')));
 
