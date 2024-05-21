@@ -5,9 +5,9 @@ import sys
 arguements = sys.argv
  
 def import_energy_data(owid_df, country_df):
-    country_df = pd.read_csv('countries.csv')
-    owid_df = pd.read_csv('owid-energy-data_A_S.csv')
-    filtered_df = owid_df[owid_df['country'].isin(country_df['country'])]
+    country = pd.read_csv(country_df)
+    owid = pd.read_csv(owid_df)
+    filtered_df = owid[owid['country'].isin(country['country'])]
 
     client = pymongo.MongoClient('mongodb+srv://joshlacroix:NByewvwMRgR8hM0C@movieappdata.dhsk4vr.mongodb.net/')
 
